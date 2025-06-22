@@ -1,41 +1,29 @@
 # ☕ Cafe Explorer
 
-**Cafe Explorer** is a Flask-based web application that helps users find work and study-friendly cafes in London. It includes an interactive map, search functionality, and the ability to add new cafes to the database.
-
----
-
-## 📸 Preview
-
-> Find cafes with WiFi, sockets, toilets, and a good environment to work in — all displayed beautifully!
-
-![Cafe Explorer Screenshot](https://via.placeholder.com/800x400?text=Screenshot+Preview)
-
----
-
-## 🚀 Features
-
-- 🔍 **Search cafes** by location
-- 🗺️ **Interactive map** (via Leaflet + OpenStreetMap)
-- ✅ View cafe amenities like WiFi, sockets, toilets, etc.
-- ➕ **Add new cafes** through a simple form
-- 💾 Powered by SQLite and Flask backend
+A simple Flask web app to explore and add work-friendly cafes with features like Wi-Fi, power availability, seating, and more — visualized on an interactive map.
 
 ---
 
 ## 🧾 Project Structure
 
-your-project-folder/ 
+```bash
+your-project-folder/
 │
-├── templates/           # HTML template files (cafe_explorer, search_results, form)
-│   ├── cafe_explorer.html    # Homepage with map and cafe list
-│   ├── search_results.html   # Search results page
-│   └── form.html             # Add cafe form page
+├── static/                  # Static files like CSS, JavaScript, images
+│   ├── homepage.png         # Screenshot of the homepage
+│   └── formpage.png         # Screenshot of the add cafe form
 │
-├── cafes.db             # SQLite database file (auto-created)
-├── main.py              # Main Flask application file with routes and DB setup
+├── templates/               # HTML template files
+│   ├── cafe_explorer.html   # Homepage with map and cafe list
+│   ├── search_results.html  # Search results page
+│   └── form.html            # Add cafe form page
+│
+├── cafes.db                 # SQLite database (auto-created, ignored in .gitignore)
+├── main.py                  # Main Flask application file with routes and DB setup
+├── .env                     # Environment config file (stores DATABASE_URL)
+├── requirements.txt         # Project dependencies
+└── .gitignore               # Git ignore rules
 
-
----
 
 ## 📦 Installation
 
@@ -45,15 +33,13 @@ git clone https://github.com/Ameer-pasha/cafe-explorer.git
 cd cafe-explorer
 
 ## Run the app
-bash
-Copy code
 python main.py
 
-🌐 Deployment
+##🌐 Deployment
 You can deploy this app on platforms like:
 Render
 
-🛠️ Tech Stack
+##🛠️ Tech Stack
 Frontend: HTML, Bootstrap 5, Leaflet
 Backend: Python, Flask
 Database: SQLite (via SQLAlchemy ORM)
