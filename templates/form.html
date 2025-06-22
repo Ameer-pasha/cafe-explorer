@@ -1,0 +1,372 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Add New Cafe - Cafe Explorer</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <!-- Bootstrap CSS -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/css/bootstrap.min.css" rel="stylesheet" crossorigin="anonymous">
+  <!-- Bootstrap JS -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/js/bootstrap.bundle.min.js" crossorigin="anonymous"></script>
+
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+
+    body, html {
+      margin: 0;
+      min-height: 100%;
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      background-color: #f8f9fa;
+    }
+
+    .header-section {
+      background: linear-gradient(135deg, #28a745 0%, #20c997 100%);
+      color: white;
+      padding: 2rem 0;
+      margin-bottom: 2rem;
+    }
+
+    .header-content h1 {
+      font-size: 2.5rem;
+      font-weight: 700;
+      margin-bottom: 0.5rem;
+      letter-spacing: -0.02em;
+    }
+
+    .header-content p {
+      font-size: 1.1rem;
+      opacity: 0.9;
+      max-width: 600px;
+      margin: 0 auto;
+    }
+
+    .back-link {
+      color: rgba(255, 255, 255, 0.9);
+      text-decoration: none;
+      font-size: 0.95rem;
+      margin-bottom: 1rem;
+      display: inline-block;
+      transition: color 0.3s ease;
+    }
+
+    .back-link:hover {
+      color: white;
+      text-decoration: underline;
+    }
+
+    .form-container {
+      max-width: 800px;
+      margin: 0 auto;
+      padding: 0 2rem;
+    }
+
+    .form-card {
+      background: white;
+      border-radius: 16px;
+      padding: 2.5rem;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+      border: 1px solid #e9ecef;
+    }
+
+    .form-section {
+      margin-bottom: 2rem;
+    }
+
+    .section-title {
+      font-size: 1.3rem;
+      font-weight: 600;
+      color: #2c3e50;
+      margin-bottom: 1rem;
+      padding-bottom: 0.5rem;
+      border-bottom: 2px solid #e9ecef;
+    }
+
+    .form-label {
+      font-weight: 600;
+      color: #495057;
+      margin-bottom: 0.5rem;
+    }
+
+    .form-control {
+      border: 2px solid #e9ecef;
+      border-radius: 8px;
+      padding: 0.75rem;
+      font-size: 0.95rem;
+      transition: border-color 0.3s ease;
+    }
+
+    .form-control:focus {
+      border-color: #28a745;
+      box-shadow: 0 0 0 0.2rem rgba(40, 167, 69, 0.25);
+    }
+
+    .form-check {
+      background: #f8f9fa;
+      padding: 1rem;
+      border-radius: 8px;
+      margin-bottom: 0.5rem;
+      border: 1px solid #e9ecef;
+      transition: background-color 0.3s ease;
+    }
+
+    .form-check:hover {
+      background: #e9ecef;
+    }
+
+    .form-check-input:checked {
+      background-color: #28a745;
+      border-color: #28a745;
+    }
+
+    .form-check-label {
+      font-weight: 500;
+      color: #495057;
+      margin-left: 0.5rem;
+    }
+
+    .btn-primary {
+      background: linear-gradient(135deg, #28a745 0%, #20c997 100%);
+      border: none;
+      border-radius: 8px;
+      padding: 0.75rem 2rem;
+      font-weight: 600;
+      font-size: 1rem;
+      transition: transform 0.3s ease;
+    }
+
+    .btn-primary:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 4px 15px rgba(40, 167, 69, 0.3);
+    }
+
+    .btn-secondary {
+      border-radius: 8px;
+      padding: 0.75rem 2rem;
+      font-weight: 600;
+      font-size: 1rem;
+    }
+
+    .alert {
+      border-radius: 8px;
+      margin-bottom: 1.5rem;
+    }
+
+    .required {
+      color: #dc3545;
+    }
+
+    .form-text {
+      font-size: 0.85rem;
+      color: #6c757d;
+      margin-top: 0.25rem;
+    }
+
+    .features-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 1rem;
+    }
+
+    @media (max-width: 768px) {
+      .form-card {
+        padding: 1.5rem;
+      }
+
+      .features-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
+</head>
+<body>
+
+<div class="header-section">
+  <div class="container">
+    <div class="header-content text-center">
+      <a href="/" class="back-link">← Back to Cafe Explorer</a>
+      <h1>Add New Cafe</h1>
+      <p>Add a new work-friendly place to our database</p>
+    </div>
+  </div>
+</div>
+
+<div class="form-container">
+  <div class="form-card">
+    <div id="alertContainer"></div>
+
+    <form id="addCafeForm">
+      <!-- Basic Information -->
+      <div class="form-section">
+        <h3 class="section-title">Basic Information</h3>
+
+        <div class="mb-3">
+          <label for="name" class="form-label">Cafe Name <span class="required">*</span></label>
+          <input type="text" class="form-control" id="name" name="name" required>
+          <div class="form-text">Enter the full name of the cafe or establishment</div>
+        </div>
+
+        <div class="mb-3">
+          <label for="location" class="form-label">Location <span class="required">*</span></label>
+          <input type="text" class="form-control" id="location" name="location" required>
+          <div class="form-text">e.g., "London Bridge", "Shoreditch", "Covent Garden"</div>
+        </div>
+
+        <div class="mb-3">
+          <label for="seats" class="form-label">Number of Seats <span class="required">*</span></label>
+          <input type="text" class="form-control" id="seats" name="seats" required>
+          <div class="form-text">e.g., "20-30", "50+", "10-15"</div>
+        </div>
+
+        <div class="mb-3">
+          <label for="coffee_price" class="form-label">Coffee Price</label>
+          <input type="text" class="form-control" id="coffee_price" name="coffee_price">
+          <div class="form-text">e.g., "£2.50", "£3.00", leave empty if not applicable</div>
+        </div>
+      </div>
+
+      <!-- URLs -->
+      <div class="form-section">
+        <h3 class="section-title">Links & Images</h3>
+
+        <div class="mb-3">
+          <label for="img_url" class="form-label">Image URL <span class="required">*</span></label>
+          <input type="url" class="form-control" id="img_url" name="img_url" required>
+          <div class="form-text">Direct link to a photo of the cafe</div>
+        </div>
+
+        <div class="mb-3">
+          <label for="map_url" class="form-label">Map URL <span class="required">*</span></label>
+          <input type="url" class="form-control" id="map_url" name="map_url" required>
+          <div class="form-text">Google Maps or other map service link</div>
+        </div>
+      </div>
+
+      <!-- Features -->
+      <div class="form-section">
+        <h3 class="section-title">Available Features</h3>
+
+        <div class="features-grid">
+          <div class="form-check">
+            <input class="form-check-input" type="checkbox" id="has_wifi" name="has_wifi" value="1">
+            <label class="form-check-label" for="has_wifi">
+              📶 Free WiFi
+            </label>
+          </div>
+
+          <div class="form-check">
+            <input class="form-check-input" type="checkbox" id="has_sockets" name="has_sockets" value="1">
+            <label class="form-check-label" for="has_sockets">
+              🔌 Power Outlets
+            </label>
+          </div>
+
+          <div class="form-check">
+            <input class="form-check-input" type="checkbox" id="has_toilet" name="has_toilet" value="1">
+            <label class="form-check-label" for="has_toilet">
+              🚻 Toilet Facilities
+            </label>
+          </div>
+
+          <div class="form-check">
+            <input class="form-check-input" type="checkbox" id="can_take_calls" name="can_take_calls" value="1">
+            <label class="form-check-label" for="can_take_calls">
+              📞 Phone Calls Allowed
+            </label>
+          </div>
+        </div>
+      </div>
+
+      <!-- Submit Buttons -->
+      <div class="d-flex gap-3 justify-content-center">
+        <button type="submit" class="btn btn-primary">
+          <span class="spinner-border spinner-border-sm d-none" id="loadingSpinner"></span>
+          Add Cafe
+        </button>
+        <a href="/" class="btn btn-secondary">Cancel</a>
+      </div>
+    </form>
+  </div>
+</div>
+
+<script>
+document.getElementById('addCafeForm').addEventListener('submit', function(e) {
+  e.preventDefault();
+
+  const loadingSpinner = document.getElementById('loadingSpinner');
+  const submitBtn = e.target.querySelector('button[type="submit"]');
+  const alertContainer = document.getElementById('alertContainer');
+
+  // Show loading state
+  loadingSpinner.classList.remove('d-none');
+  submitBtn.disabled = true;
+
+  // Clear previous alerts
+  alertContainer.innerHTML = '';
+
+  // Get form data
+  const formData = new FormData(e.target);
+  const data = {
+    name: formData.get('name'),
+    location: formData.get('location'),
+    seats: formData.get('seats'),
+    coffee_price: formData.get('coffee_price') || null,
+    img_url: formData.get('img_url'),
+    map_url: formData.get('map_url'),
+    has_wifi: formData.get('has_wifi') === '1',
+    has_sockets: formData.get('has_sockets') === '1',
+    has_toilet: formData.get('has_toilet') === '1',
+    can_take_calls: formData.get('can_take_calls') === '1'
+  };
+
+  // Send to server
+  fetch('/add', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify(data)
+  })
+  .then(response => response.json())
+  .then(result => {
+    if (result.response && result.response.success) {
+      // Success
+      alertContainer.innerHTML = `
+        <div class="alert alert-success">
+          <strong>Success!</strong> ${result.response.success}
+          <br><a href="/" class="alert-link">View all cafes</a> or add another cafe below.
+        </div>
+      `;
+      // Reset form
+      e.target.reset();
+    } else if (result.error) {
+      // Error
+      alertContainer.innerHTML = `
+        <div class="alert alert-danger">
+          <strong>Error:</strong> ${result.error}
+        </div>
+      `;
+    }
+  })
+  .catch(error => {
+    alertContainer.innerHTML = `
+      <div class="alert alert-danger">
+        <strong>Error:</strong> Failed to add cafe. Please try again.
+      </div>
+    `;
+  })
+  .finally(() => {
+    // Hide loading state
+    loadingSpinner.classList.add('d-none');
+    submitBtn.disabled = false;
+
+    // Scroll to top to show alert
+    alertContainer.scrollIntoView({ behavior: 'smooth' });
+  });
+});
+</script>
+
+</body>
+</html>

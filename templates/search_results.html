@@ -1,0 +1,434 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Search Results - Cafe Explorer</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <!-- Bootstrap CSS -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/css/bootstrap.min.css" rel="stylesheet" crossorigin="anonymous">
+  <!-- Bootstrap JS -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/js/bootstrap.bundle.min.js" crossorigin="anonymous"></script>
+  <!-- Leaflet for Map -->
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+
+    body, html {
+      margin: 0;
+      height: 100%;
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      background-color: #f8f9fa;
+    }
+
+    .header-section {
+      background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%);
+      color: white;
+      padding: 1rem 0;
+      margin-bottom: 1rem;
+    }
+
+    .header-content h1 {
+      font-size: 2rem;
+      font-weight: 700;
+      margin-bottom: 0.3rem;
+      letter-spacing: -0.02em;
+    }
+
+    .header-content p {
+      font-size: 0.95rem;
+      opacity: 0.9;
+      max-width: 700px;
+      line-height: 1.4;
+      margin-bottom: 0.8rem;
+    }
+
+    .search-container {
+      max-width: 400px;
+      margin: 0 auto 1rem;
+    }
+
+    .search-input {
+      border: 2px solid rgba(255, 255, 255, 0.3);
+      background: rgba(255, 255, 255, 0.2);
+      color: white;
+      border-radius: 25px;
+      padding: 0.5rem 1rem;
+      font-size: 0.9rem;
+    }
+
+    .search-input::placeholder {
+      color: rgba(255, 255, 255, 0.8);
+    }
+
+    .search-input:focus {
+      outline: none;
+      border-color: rgba(255, 255, 255, 0.6);
+      background: rgba(255, 255, 255, 0.3);
+    }
+
+    .back-link {
+      color: rgba(255, 255, 255, 0.9);
+      text-decoration: none;
+      font-size: 0.9rem;
+      margin-bottom: 1rem;
+      display: inline-block;
+    }
+
+    .back-link:hover {
+      color: white;
+      text-decoration: underline;
+    }
+
+    .results-section {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 2rem;
+    }
+
+    .results-header {
+      background: white;
+      padding: 1.5rem;
+      border-radius: 12px;
+      margin-bottom: 2rem;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.08);
+    }
+
+    .results-title {
+      font-size: 1.5rem;
+      font-weight: 600;
+      color: #2c3e50;
+      margin-bottom: 0.5rem;
+    }
+
+    .results-count {
+      color: #6c757d;
+      font-size: 0.95rem;
+    }
+
+    .no-results {
+      text-align: center;
+      padding: 3rem;
+      background: white;
+      border-radius: 12px;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.08);
+    }
+
+    .no-results h3 {
+      color: #6c757d;
+      font-size: 1.25rem;
+      margin-bottom: 1rem;
+    }
+
+    .no-results p {
+      color: #6c757d;
+      margin-bottom: 1.5rem;
+    }
+
+    .place-card {
+      display: flex;
+      background: white;
+      border-radius: 12px;
+      margin-bottom: 1.5rem;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.08);
+      overflow: hidden;
+      transition: all 0.3s ease;
+      border: 1px solid #e9ecef;
+    }
+
+    .place-card:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 25px rgba(0,0,0,0.15);
+    }
+
+    .place-image {
+      width: 200px;
+      height: 150px;
+      object-fit: cover;
+      flex-shrink: 0;
+    }
+
+    .place-content {
+      padding: 1.5rem;
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .place-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      margin-bottom: 0.5rem;
+    }
+
+    .place-title {
+      font-size: 1.25rem;
+      font-weight: 600;
+      color: #2c3e50;
+      margin: 0;
+      line-height: 1.3;
+    }
+
+    .quality-score {
+      background: #28a745;
+      color: white;
+      padding: 0.25rem 0.75rem;
+      border-radius: 15px;
+      font-size: 0.85rem;
+      font-weight: 600;
+      white-space: nowrap;
+    }
+
+    .place-location {
+      color: #6c757d;
+      font-size: 0.95rem;
+      margin-bottom: 1rem;
+      display: flex;
+      align-items: center;
+    }
+
+    .place-location::before {
+      content: "";
+      width: 4px;
+      height: 4px;
+      background: #dc3545;
+      border-radius: 50%;
+      margin-right: 0.5rem;
+    }
+
+    .place-details {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 1rem;
+      margin-bottom: 1rem;
+    }
+
+    .seats-info {
+      background: #6c757d;
+      color: white;
+      padding: 0.25rem 0.75rem;
+      border-radius: 15px;
+      font-size: 0.85rem;
+      font-weight: 500;
+    }
+
+    .price-tag {
+      background: #17a2b8;
+      color: white;
+      padding: 0.25rem 0.75rem;
+      border-radius: 15px;
+      font-size: 0.85rem;
+      font-weight: 600;
+    }
+
+    .features-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 0.5rem;
+      margin-top: auto;
+    }
+
+    .feature-item {
+      display: flex;
+      align-items: center;
+      font-size: 0.85rem;
+      padding: 0.25rem 0;
+    }
+
+    .feature-available {
+      color: #28a745;
+    }
+
+    .feature-unavailable {
+      color: #dc3545;
+    }
+
+    .feature-item::before {
+      content: "✓";
+      width: 16px;
+      height: 16px;
+      margin-right: 0.5rem;
+      font-weight: bold;
+    }
+
+    .feature-unavailable::before {
+      content: "✗";
+    }
+
+    .map-link {
+      color: #007bff;
+      text-decoration: none;
+      font-size: 0.9rem;
+      font-weight: 500;
+      margin-top: 0.5rem;
+      display: inline-block;
+    }
+
+    .map-link:hover {
+      text-decoration: underline;
+    }
+
+    .btn-primary {
+      background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%);
+      border: none;
+      border-radius: 25px;
+      padding: 0.5rem 1.5rem;
+      font-weight: 500;
+    }
+
+    .btn-outline-primary {
+      color: #6366f1;
+      border-color: #6366f1;
+      border-radius: 25px;
+      padding: 0.5rem 1.5rem;
+      font-weight: 500;
+    }
+
+    .btn-outline-primary:hover {
+      background: #6366f1;
+      border-color: #6366f1;
+    }
+
+    @media (max-width: 992px) {
+      .place-card {
+        flex-direction: column;
+      }
+
+      .place-image {
+        width: 100%;
+        height: 200px;
+      }
+    }
+  </style>
+</head>
+<body>
+
+<div class="header-section">
+  <div class="container">
+    <div class="header-content text-center">
+      <a href="/" class="back-link">← Back to All Cafes</a>
+      <h1>Search Results</h1>
+
+      <div class="search-container">
+        <form role="search" method="GET" action="/search">
+          <input type="search" class="form-control search-input" name="loc" placeholder="Search by location..." aria-label="Search" id="searchInput">
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="results-section">
+  <div class="results-header">
+    <div class="results-title" id="resultsTitle">Searching...</div>
+    <div class="results-count" id="resultsCount"></div>
+  </div>
+
+  <div id="results-container">
+    <!-- Results will be loaded here -->
+  </div>
+</div>
+
+<script>
+// Get search parameter from URL
+const urlParams = new URLSearchParams(window.location.search);
+const searchQuery = urlParams.get('loc') || '';
+
+// Set search input value
+document.getElementById('searchInput').value = searchQuery;
+
+// Load search results
+if (searchQuery) {
+  fetch(`/search-api?loc=${encodeURIComponent(searchQuery)}`)
+    .then(response => response.json())
+    .then(data => {
+      const resultsTitle = document.getElementById('resultsTitle');
+      const resultsCount = document.getElementById('resultsCount');
+      const resultsContainer = document.getElementById('results-container');
+
+      if (data.cafes && data.cafes.length > 0) {
+        // Show results
+        resultsTitle.textContent = `Results for "${searchQuery}"`;
+        resultsCount.textContent = `Found ${data.cafes.length} work-friendly place${data.cafes.length > 1 ? 's' : ''}`;
+
+        let html = '';
+        data.cafes.forEach(function(cafe) {
+          // Generate a random quality score for demo
+          const qualityScore = Math.floor(Math.random() * 10) + 90;
+
+          html += `
+            <div class="place-card">
+              <img src="${cafe.img_url}" alt="${cafe.name}" class="place-image">
+              <div class="place-content">
+                <div class="place-header">
+                  <h3 class="place-title">${cafe.name}</h3>
+                  <span class="quality-score">${qualityScore}%</span>
+                </div>
+                <div class="place-location">${cafe.location}</div>
+
+                <div class="place-details">
+                  <span class="seats-info">${cafe.seats} seats</span>
+                  ${cafe.coffee_price ? `<span class="price-tag">${cafe.coffee_price}</span>` : ''}
+                </div>
+
+                <div class="features-grid">
+                  <div class="feature-item ${cafe.has_wifi ? 'feature-available' : 'feature-unavailable'}">
+                    WiFi
+                  </div>
+                  <div class="feature-item ${cafe.has_sockets ? 'feature-available' : 'feature-unavailable'}">
+                    Power Outlets
+                  </div>
+                  <div class="feature-item ${cafe.has_toilet ? 'feature-available' : 'feature-unavailable'}">
+                    Toilet
+                  </div>
+                  <div class="feature-item ${cafe.can_take_calls ? 'feature-available' : 'feature-unavailable'}">
+                    Calls Allowed
+                  </div>
+                </div>
+
+                ${cafe.map_url ? `<a href="${cafe.map_url}" target="_blank" class="map-link">View on Map</a>` : ''}
+              </div>
+            </div>
+          `;
+        });
+
+        resultsContainer.innerHTML = html;
+      } else {
+        // No results found
+        resultsTitle.textContent = `No results for "${searchQuery}"`;
+        resultsCount.textContent = '';
+
+        resultsContainer.innerHTML = `
+          <div class="no-results">
+            <h3>No cafes found</h3>
+            <p>We couldn't find any work-friendly places matching "${searchQuery}".</p>
+            <a href="/" class="btn btn-primary">Browse All Cafes</a>
+            <button class="btn btn-outline-primary ms-2" onclick="document.getElementById('searchInput').focus()">Try Another Search</button>
+          </div>
+        `;
+      }
+    })
+    .catch(function(error) {
+      document.getElementById('results-container').innerHTML =
+        '<div class="alert alert-danger">Error loading search results: ' + error.message + '</div>';
+    });
+} else {
+  // No search query
+  document.getElementById('resultsTitle').textContent = 'Please enter a search term';
+  document.getElementById('results-container').innerHTML = `
+    <div class="no-results">
+      <h3>Enter a location to search</h3>
+      <p>Search for cafes by location name, area, or neighborhood.</p>
+      <a href="/" class="btn btn-primary">Browse All Cafes</a>
+    </div>
+  `;
+}
+</script>
+
+</body>
+</html>
