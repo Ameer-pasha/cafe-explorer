@@ -28,6 +28,7 @@
 ---
 
 ## 📂 Project Structure
+**
 your-project-folder/ 
 │
 ├── templates/           # HTML template files (cafe_explorer, search_results, form)
@@ -40,7 +41,7 @@ your-project-folder/
 ├── .env                 # Environment variables (e.g., DATABASE_URL)
 ├── requirements.txt     # Project dependencies
 └── README.md            # Project documentation
-
+**
 ---
 
 ## 🧪 Local Setup
