@@ -1,71 +1,55 @@
 # ☕ Cafe Explorer
 
-A simple Flask web app to explore and add work-friendly cafes with features like Wi-Fi, power availability, seating, and more — visualized on an interactive map.
+**Cafe Explorer** is a Flask-based web application that helps users discover and manage work-friendly cafes. It features a beautiful UI, interactive map (using Leaflet.js), and RESTful API to add, search, update, and delete cafes.
 
 ---
 
-## 🧾 Project Structure
+## 🚀 Features
 
-```bash
-your-project-folder/
-│
-├── static/                  # Static files like CSS, JavaScript, images
-│   ├── homepage.png         # Screenshot of the homepage
-│   └── formpage.png         # Screenshot of the add cafe form
-│
-├── templates/               # HTML template files
-│   ├── cafe_explorer.html   # Homepage with map and cafe list
-│   ├── search_results.html  # Search results page
-│   └── form.html            # Add cafe form page
-│
-├── cafes.db                 # SQLite database (auto-created, ignored in .gitignore)
-├── main.py                  # Main Flask application file with routes and DB setup
-├── .env                     # Environment config file (stores DATABASE_URL)
-├── requirements.txt         # Project dependencies
-└── .gitignore               # Git ignore rules
-
-
-## 📦 Installation
-
-1. **Clone the repo**  
-```bash
-git clone https://github.com/Ameer-pasha/cafe-explorer.git
-cd cafe-explorer
-
-## Run the app
-python main.py
-
-##🌐 Deployment
-You can deploy this app on platforms like:
-Render
-
-##🛠️ Tech Stack
-Frontend: HTML, Bootstrap 5, Leaflet
-Backend: Python, Flask
-Database: SQLite (via SQLAlchemy ORM)
-
-🙋‍♂️ Author
-👤 Ameer Pasha
-🔗 github.com/Ameer-pasha
-
-⭐ Acknowledgements
-OpenStreetMap & Leaflet.js
-
-Bootstrap 5
-
-yaml
-Copy code
+- 🔍 **Search Cafes** by location  
+- 📍 **Map integration** with Leaflet and OpenStreetMap  
+- 📝 **Add & Update cafes** via API or UI  
+- 💾 **SQLite database** (easily switchable to PostgreSQL)  
+- ✅ **Work-friendly tags**: WiFi, Power, Toilet, Call-allowed  
+- 🔐 `.env` support with `python-dotenv`
 
 ---
 
-### ✅ Steps to add:
+## 🛠️ Technologies Used
 
-1. Open your project folder.
-2. Create a new file: `README.md`.
-3. Paste the code above and **edit any personal details or screenshot URL**.
-4. Save and commit:
+- **Python 3.11+**
+- **Flask**
+- **SQLAlchemy (ORM)**
+- **Leaflet.js** for interactive maps
+- **Bootstrap 5** for responsive UI
+- **SQLite** (default) or any other SQL database
+- **dotenv** for environment variable management
 
-```bash
-git add README.md
-git commit -m "Add README"
-git push
+---
+
+## 📂 Project Structure
+your-project-folder/ 
+│
+├── templates/           # HTML template files (cafe_explorer, search_results, form)
+│   ├── cafe_explorer.html    # Homepage with map and cafe list
+│   ├── search_results.html   # Search results page
+│   └── form.html             # Add cafe form page
+│
+├── cafes.db             # SQLite database file (auto-created)
+├── main.py              # Main Flask application file with routes and DB setup
+├── .env                 # Environment variables (e.g., DATABASE_URL)
+├── requirements.txt     # Project dependencies
+└── README.md            # Project documentation
+
+---
+
+## 🧪 Local Setup
+
+ **Clone the repo**  
+   ```bash
+   git clone https://github.com/your-username/cafe-explorer.git
+   cd cafe-explorer
+python -m venv venv
+source venv/bin/activate  # or venv\Scripts\activate on Windows
+
+**python main.py
