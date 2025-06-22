@@ -3,6 +3,13 @@
 **Cafe Explorer** is a Flask-based web application that helps users discover and manage work-friendly cafes. It features a beautiful UI, interactive map (using Leaflet.js), and RESTful API to add, search, update, and delete cafes.
 
 ---
+## 📸 Screenshots
+
+### 🏠 Homepage
+![Homepage](static/homepage.png)
+
+### 📋 Form Page
+![Form Page](static/formpage.png)
 
 ## 🚀 Features
 
